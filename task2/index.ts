@@ -29,6 +29,7 @@ interface Car {
     label: string;
 }
 
+
 type CarNoCost = Extract<keyof Car, "id" | "label">;
 
 // создать интерфейс на основе User у которого нет поля id, а все остальные поля - опциональные
