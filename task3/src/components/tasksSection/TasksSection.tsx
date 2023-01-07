@@ -14,9 +14,7 @@ export const TasksSection: FC = () => {
 
   const addTask = (task: ITask): void => {
     if (task.title) {
-      const prevtasks = tasks;
-      prevtasks.push(task);
-      setTasks(prevtasks);
+      setTasks(prev => [...prev, task]);
       setTitle("");
     }
   };
@@ -61,7 +59,7 @@ export const TasksSection: FC = () => {
               addTask({
                 title: title,
                 status: "PERFORMED",
-                id: tasks.length + 1,
+                id: tasks.length+completed.length + 1,
               })
             }
           />
