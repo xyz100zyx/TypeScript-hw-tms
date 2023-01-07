@@ -1,3 +1,5 @@
-.layout{
+@import '../../variables/_variables.scss';
 
+.layout{
+    background-color: var(--dark);
 }

@@ -1,15 +1,22 @@
+@import '../../variables/_variables.scss';
+
 .section{
   max-width: 600px;
   margin: 0 auto;
   width: 100%;
+  background-color: var(--dark);
+  color: var(--gray);
 
   & .nameCollection{
     text-align: start;
     font-size: 28px;
     font-weight: 600;
+    color: var(--white);
   }
 
   .input{
+
+    background-color: var(--light-dark);
 
     span{
       cursor: pointer;
@@ -22,6 +29,11 @@
     & input{
       padding-left: 10px;
       font-size: 18px;
+      background-color: transparent;
+      &::placeholder{
+        color: var(--gray);
+      }
+      color: var(--gray);
     }
   }
 
@@ -33,6 +45,44 @@
     }
   }
 
+}
+
+.sectionProgress {
+  color: var(--gray);
+  font-weight: 500;
+  font-size: 22px;
+
+  &:nth-of-type(1){
+    margin-top: 50px;
+  }
+}
+
+.checkbox{
+  outline: none;
+  & span{
+    & span{
+      background-color: transparent !important;
+    }
+  }
+}
+
+.taskItem{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  border-radius: 12px;
+  background-color: var(--light-dark);
+}
+
+.taskTitle{
+  color: var(--gray);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.DeleteOutlined{
+  cursor: pointer;
 }
 
 .ant-input{
