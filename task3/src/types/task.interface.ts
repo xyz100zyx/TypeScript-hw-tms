@@ -4,4 +4,8 @@ export interface ITask{
     id: number;
 };
 
+export interface IPopups{
+    editTask: boolean,
+}
+
 type progress = 'COMPLETED' | 'PERFORMED';

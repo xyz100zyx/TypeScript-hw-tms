@@ -1,0 +1,26 @@
+@import "../../variables/variables";
+
+.popup{
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0,0,0, 0.7);
+
+    & .content{
+        max-width: 400px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 25px;
+        background-color: var(--dark);
+        border: 2px solid var(--white);
+        border-radius: 13px;
+
+        & .button{
+            margin-top: 15px;
+        }
+    }
+}
