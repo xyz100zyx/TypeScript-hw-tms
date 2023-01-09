@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, useState, useEffect } from "react";
+import {v4 as uuidv4} from 'uuid';
 import { Layout, Input, List, Checkbox, Typography } from "antd";
 import { TaskPopup } from "../popups/TaskPopup";
 import { PlusCircleOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -54,7 +55,7 @@ export const TasksSection: FC = () => {
               addTask({
                 title: title,
                 status: "PERFORMED",
-                id: tasks.length + 1,
+                id: uuidv4(),
               })
             }
           />

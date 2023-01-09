@@ -1,7 +1,7 @@
 export interface ITask{
     title: string,
     status: progress,
-    id: number;
+    id: string;
 };
 
 export interface IPopups{
