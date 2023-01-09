@@ -26,8 +26,7 @@ export const TasksSection: FC = () => {
   const toggleStatus = (activeTask: ITask): void => {
     activeTask.status =
       activeTask.status === "PERFORMED" ? "COMPLETED" : "PERFORMED";
-      const newArray = tasks.filter(task => task.id !== activeTask.id);
-      setTasks(prev => [...newArray, activeTask]);
+      setTasks(prev => [...prev.filter(task => task.id !== activeTask.id), activeTask]);
   };
 
   const togglePopup = (key: keyof IPopups) => {
