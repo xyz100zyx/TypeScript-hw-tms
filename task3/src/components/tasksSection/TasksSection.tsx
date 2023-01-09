@@ -5,19 +5,19 @@ import { PlusCircleOutlined, DeleteOutlined } from "@ant-design/icons";
 import { IPopups, ITask } from "../../types/task.interface";
 
 import styles from "./Sectiom.module.scss";
+import { getTaskCount } from "../../utils/getTaskCount";
 
 const { Content } = Layout;
 
 export const TasksSection: FC = () => {
   const [title, setTitle] = useState<string>("");
   const [tasks, setTasks] = useState<ITask[]>([]);
-  const [completed, setCompleted] = useState<ITask[]>([]);
-  const [popups, setPopups] = useState<IPopups>({editTask: false});
+  const [popups, setPopups] = useState<IPopups>({ editTask: false });
   const [activeTask, setActiveTask] = useState<ITask | null>(null);
 
   const addTask = (task: ITask): void => {
     if (task.title) {
-      setTasks(prev => [...prev, task]);
+      setTasks((prev) => [...prev, task]);
       setTitle("");
     }
   };
@@ -25,30 +25,16 @@ export const TasksSection: FC = () => {
   const toggleStatus = (activeTask: ITask): void => {
     activeTask.status =
       activeTask.status === "PERFORMED" ? "COMPLETED" : "PERFORMED";
-    if (activeTask.status === "COMPLETED") {
-      setCompleted((prevState) => [...prevState, activeTask]);
-      setTasks((prevState) =>
-        prevState.filter((task) => task.id !== activeTask.id)
-      );
-    } else {
-      setTasks((prevState) => [...prevState, activeTask]);
-      setCompleted((prevState) =>
-        prevState.filter((task) => task.id !== activeTask.id)
-      );
-    };
-
-    console.log(tasks, completed);
+      const newArray = tasks.filter(task => task.id !== activeTask.id);
+      setTasks(prev => [...newArray, activeTask]);
   };
 
   const togglePopup = (key: keyof IPopups) => {
-    setPopups(prev => ({...prev, [key]: !prev[key]}));
-  }
+    setPopups((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const deleteTask = (activeTask: ITask) => {
     setTasks((prev) => [...prev.filter((task) => task.id !== activeTask.id)]);
-    setCompleted((prev) => [
-      ...prev.filter((task) => task.id !== activeTask.id),
-    ]);
   };
 
   return (
@@ -68,7 +54,7 @@ export const TasksSection: FC = () => {
               addTask({
                 title: title,
                 status: "PERFORMED",
-                id: tasks.length+completed.length + 1,
+                id: tasks.length + 1,
               })
             }
           />
@@ -76,7 +62,7 @@ export const TasksSection: FC = () => {
       />
 
       <Typography className={styles.sectionProgress}>
-        Performed - {tasks.length}
+        Performed - {getTaskCount(tasks).performed}
       </Typography>
       <List
         itemLayout="horizontal"
@@ -91,7 +77,13 @@ export const TasksSection: FC = () => {
                   defaultChecked={false}
                   onChange={() => toggleStatus(item)}
                 />
-                <Typography onClick={() => {togglePopup("editTask"); setActiveTask(item)}} className={styles.taskTitle}>
+                <Typography
+                  onClick={() => {
+                    togglePopup("editTask");
+                    setActiveTask(item);
+                  }}
+                  className={styles.taskTitle}
+                >
                   {item.title}
                 </Typography>
               </div>
@@ -100,11 +92,11 @@ export const TasksSection: FC = () => {
         }
       />
       <Typography className={styles.sectionProgress}>
-        Completed - {completed.length}
+        Completed - {getTaskCount(tasks).completed}
       </Typography>
       <List
         itemLayout="horizontal"
-        dataSource={completed}
+        dataSource={tasks}
         renderItem={(item: ITask) =>
           item.status === "COMPLETED" && (
             <List.Item className={styles.listItem}>
@@ -115,7 +107,13 @@ export const TasksSection: FC = () => {
                   defaultChecked={true}
                   onChange={() => toggleStatus(item)}
                 />
-                <Typography onClick={() => {togglePopup("editTask"); setActiveTask(item)}} className={styles.taskTitle}>
+                <Typography
+                  onClick={() => {
+                    togglePopup("editTask");
+                    setActiveTask(item);
+                  }}
+                  className={styles.taskTitle}
+                >
                   {item.title}
                 </Typography>
                 <DeleteOutlined
@@ -127,7 +125,14 @@ export const TasksSection: FC = () => {
           )
         }
       />
-     {(activeTask && popups.editTask) && <TaskPopup actionPopup={setPopups} actionTasks={activeTask.status === 'COMPLETED' ? setCompleted : setTasks} stateTasks={tasks} task={activeTask}/>}
+      {activeTask && popups.editTask && (
+        <TaskPopup
+          actionPopup={setPopups}
+          actionTasks={setTasks}
+          stateTasks={tasks}
+          task={activeTask}
+        />
+      )}
     </Content>
   );
 };
